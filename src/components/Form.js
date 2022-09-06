@@ -12,8 +12,7 @@ const Form = () => {
   const taskNic = useRef("");
   const taskGender = useRef("");
    
-  const [todoEditing, setTodoEditing] = React.useState(null);
-  const [editingText, setEditingText] = React.useState("");
+  const [updateMode, setupdateMode] = useState(false);
 
 
   const  createTask=()=> {
@@ -41,19 +40,6 @@ const Form = () => {
         Gender: taskGender.current.value,
       },
     ]);
-    editTask(
-        [
-            ...tasks,
-            {
-              name: taskName.current.value,
-              email: taskEmail.current.value,
-              DOB: taskDOB.current.value,
-              Address: taskAddress.current.value,
-              Nic: taskNic.current.value,
-              Gender: taskGender.current.value,
-            },
-          ]
-    )
   }
 
   const  deleteTask=(index)=> {
@@ -78,33 +64,9 @@ const Form = () => {
     
     
   }
-const editTask=(index)=>{
-    // const name = prompt("Task Name");
-    // const email = prompt("Task Name");
-    // const dob = prompt("Task Name");
-    // const adress = prompt("Task Name");
-    // const nic = prompt("Task Name");
-    // let data = JSON.parse(localStorage.getItem('tasks'));
-    // const tasks = data.map(x => {
-    //     if (x.index === index) {
-    //         return {
-    //             ...x,
-    //             name: name,
-    //             email: email,
-    //             dob: dob,
-    //             adress: adress,
-    //             nic: nic,
-               
-    //         }
-    //     }
-    //     return x;
-    // })
 
-    // localStorage.setItem("tasks", JSON.stringify(tasks));
-}
 
   const  saveTasks=(tasks)=> {
-    
     localStorage.setItem("tasks", JSON.stringify(tasks));
   }
   
@@ -116,10 +78,11 @@ const editTask=(index)=>{
     <div>
       <div className="mt-10 sm:mt-0 flex  ">
         <div className="md:grid md:grid-cols-3 ml-32 mx-auto  flex items-center justify-center">
-          
+          <div className="md:col-span-1">
+            <div className="px-4 sm:px-0"></div>
+          </div>
           <div className="mt-5 md:mt-0 md:col-span-2">
             {/* <form action="#" method="POST"> */}
-           
             <form action='#' onSubmit={createTask}>
               <div className="shadow overflow-hidden sm:rounded-md">
                 <div className="px-4 py-5 bg-white sm:p-6">
@@ -251,6 +214,7 @@ const editTask=(index)=>{
                 </div>
               </div>
             </form>
+
             <table>
               <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
@@ -289,19 +253,12 @@ const editTask=(index)=>{
                           className="bg-white border-b dark:bg-gray-900 dark:border-gray-700"
                           key={index}
                         >
-
-
-
-                               
-                                                
-                                                  <th
-                                                    scope="row"
-                                                    className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                                                >
-                                                    {task.name}
-                                                </th>
-                                                
-                          
+ <th
+                            scope="row"
+                            className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                          >
+                            {task.name}
+                          </th>
 
                           <td className="py-4 px-6">{task.email}</td>
                           <td className="py-4 px-6">{task.DOB}</td>
@@ -320,9 +277,8 @@ const editTask=(index)=>{
                                     deleteTask(index);
                                   }}
                                 />
-                                          
-                                           <AiFillEdit size="30" onClick={editTask}
-                                />
+
+                                <AiFillEdit size="30" />
                               </div>
                             </a>
                           </td>
